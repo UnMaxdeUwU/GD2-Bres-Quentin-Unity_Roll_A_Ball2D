@@ -11,6 +11,4 @@ public class Direction_Ball : MonoBehaviour
         Vector2 direction = MousePosition - Ball_direction;
         transform.right = direction;
     }
-
-
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 public class Main_Player_Mouvement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private float Strength_ImpulseSpeed = 3f;
+    private float Strength_ImpulseSpeed = 5f;
     private float Strenght_ImpulseCurrent = 0f;
     private float Strength_ImpuleMax = 20f;
     private Vector2 Start_Position;
@@ -12,7 +12,7 @@ public class Main_Player_Mouvement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Start_Position = transform.position;
+        Start_Position = transform.position; //position du départ
     }
 
     // Update is called once per frame
@@ -20,28 +20,31 @@ public class Main_Player_Mouvement : MonoBehaviour
     {   
         Vector2 Main_Position = transform.position;
         
-        Vector2 MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = MousePosition - Main_Position;
-        if (Input.GetMouseButton(0))
+        Vector2 MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); //position de ma souris
+        Vector2 direction = MousePosition - Main_Position; 
+        if (Input.GetMouseButton(0)) //clique gauche
         {  
-            Strenght_ImpulseCurrent += Strength_ImpulseSpeed*Time.deltaTime;
+            Strenght_ImpulseCurrent += Strength_ImpulseSpeed*Time.deltaTime; 
             Strenght_ImpulseCurrent = Mathf.Clamp(Strenght_ImpulseCurrent, 0f, Strength_ImpuleMax);
             
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0)) //relache du clic gauche
         {   
-            //Debug.Log("force" + Strenght_ImpulseCurrent);
-            BallMouve(direction.normalized, Strenght_ImpulseCurrent);
+            BallMouve(direction.normalized, Strenght_ImpulseCurrent);  //apelle fonction avec valeur du maintient du clique droit
             float reset = 0f;
             Strenght_ImpulseCurrent = reset;
         }
+        
+        
+        
+        
     }
 
     private void BallMouve(Vector2 direction, float current)
     {
         //rb.AddForce(transform.right * current);
-        rb.AddForce(direction * current, ForceMode2D.Impulse);
+        rb.AddForce(direction * current, ForceMode2D.Impulse); 
     }
 
     private void OnCollisionEnter2D(Collision2D other)
