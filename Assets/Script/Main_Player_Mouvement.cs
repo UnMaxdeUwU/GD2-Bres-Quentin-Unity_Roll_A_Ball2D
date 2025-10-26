@@ -6,13 +6,14 @@ public class Main_Player_Mouvement : MonoBehaviour
     private float Strength_ImpulseSpeed = 5f;
     private float Strenght_ImpulseCurrent = 0f;
     private float Strength_ImpuleMax = 20f;
-    private Vector2 Start_Position;
+    private Vector2 CheckPoint_Position;
+    [SerializeField] private Grappin _grappin;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Start_Position = transform.position; //position du départ
+        CheckPoint_Position = transform.position; //position du départ
     }
 
     // Update is called once per frame
@@ -54,8 +55,29 @@ public class Main_Player_Mouvement : MonoBehaviour
             ResetPosition();
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent<CheckPoint>() != null)
+        {
+            NewCheckPoint();
+        }
+
+        if (other.gameObject.GetComponent<Void>() != null)
+        {
+            ResetPosition();
+        }
+    }
     private void ResetPosition()
     {
-        rb.position = Start_Position;
+        rb.position = CheckPoint_Position;
+        _grappin.IsGrappin = false;
+        _grappin._dj.enabled = false;
+        _grappin._lr.enabled = false;
+    }
+
+    private void NewCheckPoint()
+    {
+        CheckPoint_Position = transform.position;
     }
 }

@@ -3,9 +3,9 @@ using UnityEngine;
 public class Grappin : MonoBehaviour
 {   
     private Rigidbody2D _rb;
-    private LineRenderer _lr;
-    private DistanceJoint2D _dj;
-    private bool IsGrappin = false;
+    public LineRenderer _lr;
+    public DistanceJoint2D _dj;
+    public bool IsGrappin = false; //desole Gilbert
     private Vector3 point;
     
     public LayerMask grappLayer;

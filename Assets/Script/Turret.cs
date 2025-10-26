@@ -15,7 +15,8 @@ public class Turret : MonoBehaviour
     [SerializeField] private Transform _SpawnPoint;
     [SerializeField] private Projectile _projectilePrefab;
     private Coroutine coroutineBullet;
-    private Vector2 myTransform;
+    private Vector2 direction;
+    private float angle;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,10 +33,9 @@ public class Turret : MonoBehaviour
         {   
             _positionTurret = transform.position;
             Vector2 target = _positionPlayer.position;  
-            Vector2 direction = target - _positionTurret;
-            myTransform = direction;
+            direction = target - _positionTurret;
             
-            float angle = Mathf.Atan2(direction.y , direction.x) * Mathf.Rad2Deg;
+            angle = Mathf.Atan2(direction.y , direction.x) * Mathf.Rad2Deg;
             //transform.rotation = Quaternion.Euler(0, 0, angle + RotationCorrection);
             TurretSprite.transform.rotation = Quaternion.Euler(0, 0, angle + RotationCorrection);
             //Debug.Log(angle);
@@ -75,12 +75,8 @@ public class Turret : MonoBehaviour
         if (other.GetComponent<Main_Player_Mouvement>() == null)
         {
             playerEnter = false;
-            if (coroutineBullet != null)
-            {   
-                Debug.Log("Stop");
-                StopCoroutine(BulletTimer());
-                coroutineBullet = null;
-            }
+            Debug.Log("Stop");
+            StopCoroutine(BulletTimer());
         }
 
 
@@ -91,7 +87,7 @@ public class Turret : MonoBehaviour
 
         while (playerEnter)
         {   
-            Instantiate(_projectilePrefab, _SpawnPoint.position, Quaternion.identity).Init(myTransform);
+            Instantiate(_projectilePrefab, _SpawnPoint.position, Quaternion.identity).Init(direction, Quaternion.Euler(0, 0, angle + RotationCorrection));
             Debug.Log("CoroutineStart");
             yield return new WaitForSeconds(3);
         }
