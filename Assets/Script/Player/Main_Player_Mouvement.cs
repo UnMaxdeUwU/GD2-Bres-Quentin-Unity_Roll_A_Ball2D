@@ -1,5 +1,7 @@
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 public class Main_Player_Mouvement : MonoBehaviour
 {
@@ -22,6 +24,9 @@ public class Main_Player_Mouvement : MonoBehaviour
 
     [SerializeField] private AudioClip[] audioClips;
     private bool[] soundPlayed = new bool[3];
+    
+    [SerializeField] private Main_Score _scoreData;
+    [SerializeField] private NewMonoBehaviourScript _uiController;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -74,6 +79,7 @@ public class Main_Player_Mouvement : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Spike>() != null)
         {
+            SoundFXManager.instance.PlaySoundFXClipArray(audioClips, transform, 100f, 3);
             ResetPosition();
         }
     }
@@ -83,10 +89,18 @@ public class Main_Player_Mouvement : MonoBehaviour
         if (other.gameObject.GetComponent<CheckPoint>() != null)
         {
             NewCheckPoint();
+            UpdateScore(1);
+        }
+
+        if (other.gameObject.GetComponent<Coins>() != null)
+        {
+            UpdateScore(5);
+            Destroy(other.gameObject);
         }
 
         if (other.gameObject.GetComponent<Void>() != null)
-        {
+        {   
+            SoundFXManager.instance.PlaySoundFXClipArray(audioClips, transform, 100f, 5);
             ResetPosition();
         }
     }
@@ -97,7 +111,6 @@ public class Main_Player_Mouvement : MonoBehaviour
         _grappin.IsGrappin = false;
         _grappin._dj.enabled = false;
         _grappin._lr.enabled = false;
-        SoundFXManager.instance.PlaySoundFXClipArray(audioClips, transform, 1f, 3);
         
     }
 
@@ -151,5 +164,12 @@ public class Main_Player_Mouvement : MonoBehaviour
         {
             soundPlayed[i] = false;
         }
+    }
+    public static Action<int> OnTargetCollected;
+    public void UpdateScore(int value)
+    {
+        _scoreData.ScoreValue = Mathf.Clamp(_scoreData.ScoreValue+ value, 0, _scoreData.ScoreValue+ value);
+        //_uiController.UpdateScore(_scoreData.ScoreValue);
+        OnTargetCollected?.Invoke(_scoreData.ScoreValue);
     }
 }

@@ -21,7 +21,7 @@ public class SoundFXManager : MonoBehaviour
         audioSource.clip = audioClip;
         
         audioSource.volume = volume;
-        audioSource.spatialBlend = 0f;
+        audioSource.spatialBlend = 0f; 
         
         audioSource.Play();
         
