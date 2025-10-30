@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class CheckPoint : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private Collider2D col;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        col = GetComponent<Collider2D>();
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent<Main_Player_Mouvement>() != null)
+        {
+            col.enabled = false;
+        }
     }
 }
