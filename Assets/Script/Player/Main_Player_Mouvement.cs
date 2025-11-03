@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.Controls;
 public class Main_Player_Mouvement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private float Strength_ImpulseSpeed = 5f;
+    private float Strength_ImpulseSpeed = 10f;
     private float Strenght_ImpulseCurrent = 0f;
     private float Strength_ImpuleMax = 15f;
     private Vector2 CheckPoint_Position;
