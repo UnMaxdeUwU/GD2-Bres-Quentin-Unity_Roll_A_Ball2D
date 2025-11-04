@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
         if (other.gameObject.GetComponent<Main_Player_Mouvement>() != null)
 
         {
-            Destroy(gameObject);
+            Destroy(gameObject,0.01f);
         }
     }
 }

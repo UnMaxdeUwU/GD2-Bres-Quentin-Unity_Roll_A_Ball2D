@@ -72,7 +72,7 @@ public class Turret : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.GetComponent<Main_Player_Mouvement>() == null)
+        if (other.GetComponent<Main_Player_Mouvement>() != null)
         {
             playerEnter = false;
             Debug.Log("Stop");

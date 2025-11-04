@@ -95,6 +95,7 @@ public class Main_Player_Mouvement : MonoBehaviour
         if (other.gameObject.GetComponent<Coins>() != null)
         {
             UpdateScore(5);
+            SoundFXManager.instance.PlaySoundFXClipArray(audioClips, transform, 100f, 6);
             Destroy(other.gameObject);
         }
 
